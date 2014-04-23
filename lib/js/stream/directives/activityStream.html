@@ -1,0 +1,44 @@
+<h1>
+  whazzup on <a href="/s/{{ stream.id }}">#{{stream.id}}</a>
+  <span class="controls">
+    <button class="btn btn-default" ng-click="syncStream()" ng-disabled="synchronizing">
+      <span class="icon-refresh" ng-class="{ 'animate-spin': synchronizing }"></span>
+    </button>
+  </span>
+</h1>
+
+
+<div class="events" ng-show="loading">
+
+  <div class="events-timeline">
+    <div class="date">
+      <span class="marker icon-loading animate-spin"></span>
+      <div class="message">loading stream ...</div>
+    </div>
+  </div>
+</div>
+
+<div class="events" ng-show="streamData">
+
+  <div class="events-timeline">
+    <div class="date" ng-repeat-start="event in streamData.events"ng-show="differentDate(event, streamData.events[$index - 1])">
+      <span class="marker icon-time"></span>
+      <div class="message">{{ event.created_at | fromNow }}</div>
+    </div>
+    <div class="event" dh-event data="event" ng-repeat-end></div>
+  </div>
+</div>
+
+<div class="summary" ng-show="streamData">
+  <span>displaying {{ streamData.events.length }} / {{ streamData.total }} events</span>
+</div>
+
+<div class="events" ng-show="error">
+
+  <div class="events-timeline">
+    <div class="date">
+      <span class="marker icon-error"></span>
+      <div class="message">{{ error.status }} - {{ error.message }}</div>
+    </div>
+  </div>
+</div>

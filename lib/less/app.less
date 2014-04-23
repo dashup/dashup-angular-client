@@ -1,0 +1,260 @@
+/* <sticky-footer> */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+}
+/* </sticky-footer> */
+
+
+/* <footer> */
+footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+
+  text-align: center;
+
+  ul {
+    list-style: none;
+    
+    li {
+      padding: 0 5px;
+      display: inline;
+    }
+  }
+}
+/* </footer> */
+
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 730px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    max-width: 930px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  header,
+  footer {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  header {
+    margin-bottom: 30px;
+  }
+}
+
+.activity-stream {
+
+  h1 {
+    margin-bottom: 50px;
+
+    .controls {
+      float: right;
+    }
+  }
+}
+
+.events {
+  position: relative;
+  margin-left: 200px;
+}
+
+.events-timeline {
+
+  &:before {
+    display: block;
+    content: "";
+    position: absolute;
+    background-color: #F3F3F3;
+    z-index: -1;
+    top: 15px;
+    bottom: 15px;
+    left: 24px;
+    width: 2px;
+  }
+
+  .marker {
+    position: absolute;
+    top: 0;
+    left: -50px;
+
+    display: block;
+
+    font-size: 20px;
+    line-height: 34px;
+    
+    width: 40px;
+    height: 40px;
+    border: solid 3px #FFF;
+    border-radius: 30px;
+    
+    background-color: #F3F3F3;
+    text-align: center;
+  }
+
+  .repo {
+    position: absolute;
+    left: -260px;
+    text-align: right;
+    top: 0;
+    line-height: 40px;
+    width: 200px;
+    
+    a {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      display: block;
+
+      &:not(:hover) {
+        text-decoration: none;
+        color: inherit;
+      }
+    }
+  }
+
+  .date,
+  .event {
+    position: relative;
+    margin: 0 0 20px 55px;
+  }
+
+  .date:not(:first-child) {
+    margin-top: 100px;
+  }
+
+  /** custom marker styles */
+
+  .marker.icon-close {
+    font-size: 19px;
+  }
+
+  .marker.icon-open {
+    font-size: 16px;
+  }
+
+  .marker.icon-close, 
+  .marker.icon-error {
+    background-color: #BD2C00;
+  }
+
+  .marker.icon-open {
+    background-color: #6CC644;
+  }
+
+  .marker.icon-close, 
+  .marker.icon-open,
+  .marker.icon-error {
+    color: white;
+  }
+}
+
+.events {
+
+  .message {
+    line-height: 40px;
+  }
+  
+  .details {
+    margin-left: 25px;
+    margin-top: 5px;
+
+    position: relative;
+  }
+
+  .commits {
+    padding: 0;
+    list-style: none;
+  }
+
+  .event {
+    margin-bottom: 30px;
+    
+    &:first-child .date {
+      margin-top: 0;
+    }
+  }
+
+  a.expand {
+    color: #FFF;
+    background: #E6E6E6;
+    line-height: 10px;
+    display: inline-block;
+    padding: 0 3px;
+    border-radius: 2px;
+    margin-left: 5px;
+
+    &:hover {
+      background: #428BCA;
+    }
+  }
+
+  .commit {
+
+    font-family: Monaco, "Liberation Mono", Courier, monospace;
+    margin-bottom: 2px;
+
+    .sha {
+      float: right;
+      margin-left: 20px;
+    }
+
+    a:not(:hover) {
+      color: inherit;
+    }
+    
+    a.sha:not(:hover) {
+      color: #CCC;
+    }
+    
+    .icon-commit {
+      background: #F6F6F6;
+      display: inline-block;
+      padding: 0 5px;
+      border-radius: 4px;
+
+      margin-right: 2px;
+    }
+  }
+
+  .comment {
+    margin: 5px 10px;
+
+    &:before {
+      display: block;
+      content: "";
+      position: absolute;
+      background-color: #C3C3C3;
+      z-index: -1;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 1px;
+    }
+  }
+
+  .user img {
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    margin-right: 3px;
+  }
+}
