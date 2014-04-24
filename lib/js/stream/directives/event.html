@@ -6,12 +6,12 @@
 
     <div class="message">
       <span dh-user data="event.actor"></span> pushed
-      {{ event.payload.distinct_size }} commits to 
+      {{ event.payload.distinct_size }} commits to
       <span dh-ref data="event.payload" repo="event.repo"></span>
     </div>
 
     <span class="repo" dh-repo data="event.repo"></span>
-    
+
     <div class="details">
       <ul class="commits">
         <li ng-repeat="commit in event.payload.commits" ng-show="commit.distinct">
@@ -20,7 +20,7 @@
       </ul>
     </div>
   </div>
-  
+
   <div ng-switch-when="IssueCommentEvent">
 
     <span class="marker icon-comment"></span>
@@ -28,7 +28,7 @@
     <div class="message">
       <span dh-user data="event.actor"></span> commented on
       <span dh-issue data="event.payload.issue"></span>
-      <a title="show comment" href="{{ event.payload.comment.html_url }}" dh-expander></a>
+      <a class="expand" title="show comment" href="{{ event.payload.comment.html_url }}" dh-expander></a>
     </div>
 
     <span class="repo" dh-repo data="event.repo"></span>
@@ -40,8 +40,9 @@
 
   <div ng-switch-when="IssuesEvent">
     <ng-switch on="event.payload.action">
-      <span class="marker icon-open" ng-switch-when="opened"></span>
-      <span class="marker icon-close" ng-switch-when="closed"></span>
+      <span class="marker icon-open open" ng-switch-when="opened"></span>
+      <span class="marker icon-open open" ng-switch-when="reopened"></span>
+      <span class="marker icon-close close" ng-switch-when="closed"></span>
     </ng-switch>
 
     <div class="message">
@@ -63,8 +64,23 @@
     <span class="repo" dh-repo data="event.repo"></span>
   </div>
 
+  <div ng-switch-when="PullRequestEvent">
+
+    <ng-switch on="event.payload.action">
+      <span class="marker icon-git-pull-request open" ng-switch-when="opened"></span>
+      <span class="marker icon-git-pull-request open" ng-switch-when="reopened"></span>
+      <span class="marker icon-git-pull-request close" ng-switch-when="closed"></span>
+    </ng-switch>
+
+    <div class="message">
+      <span dh-user data="event.actor"></span> {{ event.payload.action }} <span dh-pull-request data="event.payload.pull_request"></span>
+    </div>
+
+    <span class="repo" dh-repo data="event.repo"></span>
+  </div>
+
   <div ng-switch-when="ForkEvent">
-    <span class="marker icon-fork"></span>
+    <span class="marker icon-git-branch fork"></span>
 
     <div class="message">
       <span dh-user data="event.actor"></span> forked <span dh-repo data="event.repo"></span>
@@ -73,7 +89,7 @@
 
   <div ng-switch-when="CreateEvent">
     <span class="marker icon-general"></span>
-    
+
     <div class="message">
       <span dh-user data="event.actor"></span> created <span dh-repo data="event.repo"></span>
     </div>
