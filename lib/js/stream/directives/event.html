@@ -117,8 +117,9 @@
     <span class="repo" dh-repo data="event.repo" ng-hide="event.payload.ref_type == 'repository'"></span>
   </div>
 
+  <div ng-switch-when="PublicEvent"></div>
+
   <div ng-switch-default>
     <pre>{{ event | json }}</pre>
   </div>
-
 </div>
