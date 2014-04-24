@@ -87,12 +87,34 @@
     </div>
   </div>
 
+  <div ng-switch-when="WatchEvent">
+    <span class="marker icon-general"></span>
+
+    <div class="message">
+      <span dh-user data="event.actor"></span> {{ event.payload.action }} watching <span dh-repo data="event.repo"></span>
+    </div>
+  </div>
+
   <div ng-switch-when="CreateEvent">
     <span class="marker icon-general"></span>
 
     <div class="message">
-      <span dh-user data="event.actor"></span> created <span dh-repo data="event.repo"></span>
+      <span dh-user data="event.actor"></span> created {{ event.payload.ref_type }}
+      <span ng-hide="event.payload.ref_type == 'repository'">{{ event.payload.ref }}</span>
+      <span dh-repo data="event.repo" ng-show="event.payload.ref_type == 'repository'"></span>
     </div>
+
+    <span class="repo" dh-repo data="event.repo" ng-hide="event.payload.ref_type == 'repository'"></span>
+  </div>
+
+  <div ng-switch-when="DeleteEvent">
+    <span class="marker icon-git-branch-delete"></span>
+
+    <div class="message">
+      <span dh-user data="event.actor"></span> deleted {{ event.payload.ref_type }} <span>{{ event.payload.ref }}</span>
+    </div>
+
+    <span class="repo" dh-repo data="event.repo" ng-hide="event.payload.ref_type == 'repository'"></span>
   </div>
 
   <div ng-switch-default>
