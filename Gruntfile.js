@@ -45,6 +45,9 @@ module.exports = function (grunt) {
           // index.html
           { expand: true, cwd: 'lib/', src: [ 'index.html' ], dest: 'dist/' },
 
+          // images
+          { expand: true, cwd: 'lib/', src: [ 'img/*' ], dest: 'dist/' },
+
           // fonts
           { expand: true, cwd: 'lib/', src: [ 'font/dashup.*' ], dest: 'dist/' },
         ]
@@ -71,6 +74,7 @@ module.exports = function (grunt) {
       resources: {
         files: [
           'lib/index.html',
+          'lib/img/*',
           'lib/font/dashub.*'
         ],
         tasks: [ 'copy:resources' ]
