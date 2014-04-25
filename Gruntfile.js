@@ -1,9 +1,9 @@
 
 module.exports = function (grunt) {
-  
+
   require('time-grunt')(grunt);
   require('load-grunt-tasks')(grunt);
-  
+
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -32,6 +32,13 @@ module.exports = function (grunt) {
         }
       }
     },
+    uglify: {
+      dist: {
+        files: {
+          'dist/dashup.min.js': [ 'dist/dashup.js' ]
+        }
+      }
+    },
     copy: {
       resources: {
         files: [
@@ -55,6 +62,12 @@ module.exports = function (grunt) {
         ],
         tasks: [ 'browserify:development' ]
       },
+      dist: {
+        files: [
+          'dist/dashup.js'
+        ],
+        tasks: [ 'uglify:dist' ]
+      },
       resources: {
         files: [
           'lib/index.html',
@@ -65,8 +78,8 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.registerTask('build', [ 'less', 'browserify', 'copy' ]);
-  
+  grunt.registerTask('build', [ 'less', 'browserify', 'copy', 'uglify' ]);
+
   grunt.registerTask('auto-build', [ 'build', 'watch' ]);
 
   grunt.registerTask('default', [ 'build' ]);
