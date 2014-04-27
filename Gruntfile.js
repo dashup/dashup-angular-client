@@ -19,16 +19,26 @@ module.exports = function (grunt) {
     },
     browserify: {
       options: {
+        transform: [ 'brfs' ],
         browserifyOptions: {
-          // noParse: [ 'angular', 'jquery' ]
+          builtins: [ 'fs' ],
+          noParse: [
+            'node_modules/angular/lib/angular.min.js',
+            'node_modules/jquery/dist/jquery.js',
+            'node_modules/lodash/dist/lodash.js',
+            'node_modules/moment/moment.js',
+            'node_modules/marked/lib/marked.js'
+          ],
+          commondir: false
+        },
+        bundleOptions: {
+          detectGlobals: false,
+          insertGlobalVars: []
         }
       },
       development: {
         files: {
           'dist/dashup.js': [ 'lib/js/dashup.js' ]
-        },
-        options: {
-          transform: [ 'brfs' ]
         }
       }
     },
@@ -64,12 +74,6 @@ module.exports = function (grunt) {
           'lib/js/**/*.html'
         ],
         tasks: [ 'browserify:development' ]
-      },
-      dist: {
-        files: [
-          'dist/dashup.js'
-        ],
-        tasks: [ 'uglify:dist' ]
       },
       resources: {
         files: [
