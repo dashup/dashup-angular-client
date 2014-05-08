@@ -1,20 +1,70 @@
+'use strict';
 
 module.exports = function (grunt) {
+
+  /* global process*/
+
+  // configures browsers to run test against
+  // any of [ 'PhantomJS', 'Chrome', 'Firefox', 'IE']
+  var TEST_BROWSERS = ((process.env.TEST_BROWSERS || '').replace(/^\s+|\s+$/, '') || 'PhantomJS').split(/\s*,\s*/g);
+
 
   require('time-grunt')(grunt);
   require('load-grunt-tasks')(grunt);
 
 
   grunt.initConfig({
+
     pkg: grunt.file.readJSON('package.json'),
+
+    config: {
+      sources: 'lib',
+      dist: 'dist',
+      assets: 'assets',
+      tests: 'test',
+      bower_components: 'bower_components'
+    },
+
     less: {
       development: {
         options: {
-          paths: [ 'lib/less', 'bower_components/bootstrap/less' ]
+          paths: [ '<%= config.assets %>/less', '<%= config.bower_components %>/bootstrap/less' ]
         },
         files: {
-          'dist/dashup.css': 'lib/less/dashup.less'
+          '<%= config.dist %>/dashup.css': '<%= config.assets %>/less/dashup.less'
         }
+      }
+    },
+
+    jshint: {
+      src: [
+        ['<%= config.sources %>']
+      ],
+      gruntfile: [
+        'Gruntfile.js'
+      ],
+      options: {
+        jshintrc: true
+      }
+    },
+
+    karma: {
+      options: {
+        configFile: '<%= config.tests %>/config/karma.unit.js',
+      },
+      single: {
+        singleRun: true,
+        autoWatch: false,
+
+        browsers: TEST_BROWSERS,
+
+        browserify: {
+          debug: false,
+          transform: [ 'brfs' ]
+        }
+      },
+      unit: {
+        browsers: TEST_BROWSERS
       }
     },
     browserify: {
@@ -22,13 +72,6 @@ module.exports = function (grunt) {
         transform: [ 'brfs' ],
         browserifyOptions: {
           builtins: [ 'fs' ],
-          noParse: [
-            'node_modules/angular/lib/angular.min.js',
-            'node_modules/jquery/dist/jquery.js',
-            'node_modules/lodash/dist/lodash.js',
-            'node_modules/moment/moment.js',
-            'node_modules/marked/lib/marked.js'
-          ],
           commondir: false
         },
         bundleOptions: {
@@ -36,16 +79,26 @@ module.exports = function (grunt) {
           insertGlobalVars: []
         }
       },
-      development: {
+      app: {
         files: {
-          'dist/dashup.js': [ 'lib/js/dashup.js' ]
+          '<%= config.dist %>/dashup.js': [ '<%= config.sources %>/dashup.js' ]
+        }
+      },
+      watch: {
+        options: {
+          watch: true,
+          keepalive: true
+        },
+        files: {
+          '<%= config.dist %>/bpmn.js': [ '<%= config.sources %>/**/*.js' ],
+          '<%= config.dist %>/bpmn-viewer.js': [ '<%= config.sources %>/lib/Viewer.js' ]
         }
       }
     },
     uglify: {
       dist: {
         files: {
-          'dist/dashup.min.js': [ 'dist/dashup.js' ]
+          '<%= config.dist %>/dashup.min.js': [ '<%= config.dist %>/dashup.js' ]
         }
       }
     },
@@ -56,39 +109,35 @@ module.exports = function (grunt) {
           { expand: true, cwd: 'lib/', src: [ 'index.html' ], dest: 'dist/' },
 
           // images
-          { expand: true, cwd: 'lib/', src: [ 'img/*' ], dest: 'dist/' },
+          { expand: true, cwd: 'assets/', src: [ 'img/**/*' ], dest: 'dist/' },
 
           // fonts
-          { expand: true, cwd: 'lib/', src: [ 'font/dashup.*' ], dest: 'dist/' },
+          { expand: true, cwd: 'assets/', src: [ 'font/dashup.*' ], dest: 'dist/' },
         ]
       }
     },
     watch: {
       less: {
-        files: [ 'lib/less/*.less' ],
+        files: [ '<%= config.assets %>/less/*.less' ],
         tasks: [ 'less' ]
-      },
-      js: {
-        files: [
-          'lib/js/**/*.js',
-          'lib/js/**/*.html'
-        ],
-        tasks: [ 'browserify:development' ]
       },
       resources: {
         files: [
-          'lib/index.html',
-          'lib/img/*',
-          'lib/font/dashub.*'
+          '<%= config.assets %>/img/**/*',
+          '<%= config.assets %>/font/dashub.*'
         ],
         tasks: [ 'copy:resources' ]
       }
     }
   });
 
-  grunt.registerTask('build', [ 'less', 'browserify', 'copy', 'uglify' ]);
+  grunt.registerTask('build', [ 'less', 'browserify:app', 'copy', 'uglify' ]);
 
-  grunt.registerTask('auto-build', [ 'build', 'watch' ]);
+  grunt.registerTask('auto-build', [
+    'less', 'copy',
+    'browserify:watch',
+    'watch'
+  ]);
 
   grunt.registerTask('default', [ 'build' ]);
 };

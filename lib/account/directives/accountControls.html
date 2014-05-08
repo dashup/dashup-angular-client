@@ -1,0 +1,21 @@
+<div class="btn-group" ng-if="currentUser">
+  <button type="button" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown">
+    You <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li><a href="#">Streams</a></li>
+    <li><a href="#">Account</a></li>
+    <li class="divider"></li>
+    <li><a href="#">Logout</a></li>
+  </ul>
+</div>
+
+<div class="btn-group" ng-if="!currentUser">
+  <button type="button" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown">
+    Login <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li class="divider"></li>
+    <li><a href="#">Login</a></li>
+  </ul>
+</div>
