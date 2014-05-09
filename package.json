@@ -30,14 +30,20 @@
     "grunt-browserify": "~2.0.8",
     "grunt-contrib-less": "~0.11.0",
     "grunt-contrib-uglify": "~0.4.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-karma": "^0.8.3",
     "time-grunt": "~0.3.0",
     "load-grunt-tasks": "~0.4.0",
     "browserify": "~3.44.2",
     "through": "~2.3.4",
-    "brfs": "~0.2.2"
+    "brfs": "~0.2.2",
+    "karma": "^0.12.15",
+    "karma-bro": "^0.2.2",
+    "karma-jasmine": "^0.1.5",
+    "karma-phantomjs-launcher": "^0.1.3",
+    "watchify": "^0.6.3"
   },
   "dependencies": {
-    "angular": "~1.2.16",
     "moment": "~2.6.0",
     "marked": "~0.3.2",
     "jquery": "^2.1.0"

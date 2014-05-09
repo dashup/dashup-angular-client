@@ -131,6 +131,8 @@ module.exports = function (grunt) {
     }
   });
 
+  grunt.registerTask('test', 'karma:single');
+
   grunt.registerTask('build', [ 'less', 'browserify:app', 'copy', 'uglify' ]);
 
   grunt.registerTask('auto-build', [
@@ -139,5 +141,5 @@ module.exports = function (grunt) {
     'watch'
   ]);
 
-  grunt.registerTask('default', [ 'build' ]);
+  grunt.registerTask('default', [ 'test', 'build' ]);
 };

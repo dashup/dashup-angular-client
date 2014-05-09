@@ -1,7 +1,7 @@
 'use strict';
 
 // make sure angular can find jquery
-window.jquery = require('jquery');
+window.jQuery = require('jquery');
 
 require('../bower_components/angular/angular');
 
